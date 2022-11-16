@@ -15,7 +15,8 @@ function displayProducts(reponseApi) {
   
   const products = reponseApi;
   console.table(products);
-  for (let i = 0; i < displayProducts.length; i++) {
+  
+  for (let i = 0; i < reponseApi.length; i++) {
     
       /*Insértion de l'élèment a*/
       const a = document.createElement('a');
@@ -41,7 +42,7 @@ function displayProducts(reponseApi) {
       
       /*Insértion de la description p*/
       const productDescription = document.createElement("p");
-      productArticle.appendChild(productName);
+      productArticle.appendChild(productDescription);
       productDescription.classList.add("productName");
       productDescription.innerHTML = products[i].description;
   }
