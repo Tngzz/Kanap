@@ -2,12 +2,8 @@
 function apiCall() {
   fetch('http://localhost:3000/api/products')
     .then(reponse => reponse.json())
-    .then(reponse => displayProducts(reponse))
-      
+    .then(reponse => displayProducts(reponse))   
 }
-
-
-/*Fonction affiche les canapés */
 function displayProducts(reponseApi) {
   
   /*Séléction de l'ID items*/
@@ -21,9 +17,10 @@ function displayProducts(reponseApi) {
       /*Insértion de l'élèment a*/
       const a = document.createElement('a');
       document.querySelector(".items").appendChild(a);
-      a.href = `product.html?id=${products[i]._id}`;
       
-
+      /*Lien vers page produit*/
+      a.href = objectURL;
+    
       /*Insértion de l'élèment article*/
       const productArticle = document.createElement("article");
       a.appendChild(productArticle);
@@ -49,3 +46,4 @@ function displayProducts(reponseApi) {
 };
 
 apiCall()
+
