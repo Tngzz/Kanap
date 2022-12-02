@@ -2,10 +2,9 @@
 const str = window.location;
 const url = new URL(str);
 const id = url.searchParams.get("id");
-console.log(id)
+console.log(id);
 
-const productURL = url + id;
-console.log(productURL);
+
 
 /*Récup url Api + ajout de l'id*/
 fetch(`http://localhost:3000/api/products/${id}`)
@@ -19,11 +18,11 @@ function productObject(kanap) {
   const colors = kanap.colors
   const description = kanap.description
   const imageUrl = kanap.imageUrl
-  const name = kanap.name
+  const nameProd = kanap.name
   const price = kanap.price
   const id = kanap._id
   image (imageUrl, altTxt)
-  title (name)
+  title (nameProd)
   neWdescription (description)
   newPrice (price)
   newColors (colors)
@@ -37,8 +36,9 @@ function image (imageUrl, altTxt) {
   document.querySelector(".item__img").appendChild(image)
 }
 
-function title (name) {
-  document.querySelector("#title").textContent = name;
+function title (nameProd) {
+  document.querySelector("#title").textContent = nameProd;
+  
 }
 
 function neWdescription (description) {
@@ -64,38 +64,60 @@ function newColors (colors) {
 }
 
 /*recupération option couleurs*/
-const idProduct = document.querySelector("#colors");
-console.log(idProduct)
+const colorProduct = document.querySelector("#colors");
+console.log(colorProduct)
 
 /*recupération quantity*/
 const quantityKanap = document.querySelector("#quantity");
 console.log(quantityKanap)
 
-
 /*selection du bouton dans le dom pour addEvenListenner*/
 const selectedButon = document.querySelector("#addToCart");
 console.log(addToCart);
 
-
+/*On vient écouter le bouton addToCart à chaque click de la souris*/
 selectedButon.addEventListener("click", (event) => {
   
-
   /*récup valeur de la couleur*/
-  const choiceProduct = idProduct.value;
+  const choiceColorProduct = colorProduct.value;
+  console.log(choiceColorProduct);
  
   /*récup valeur de la quantity*/
   const quantityVal = quantityKanap.value;
-  
+
+  /*Les infos du produit sélectionné */
   let selectedProduct = {
     idProduct: id,
-    colorProduct: choiceProduct,
-    quantity : quantityVal,
-    /*price: price,*/
-  };
+    color: choiceColorProduct,
+    quantity: quantityVal,
   
-  console.log(selectedProduct);
+  };
+
+  console.log(selectedProduct)
+   
+/*local Storage*/
+let productStorage = JSON.parse(localStorage.getItem("product"));
+console.log(productStorage);
+
+/*Si localStorage n'est pas vide alors on push les infos */
+if (productStorage) {
+    productStorage.push(selectedProduct);
+    localStorage.setItem("product", JSON.stringify(productStorage));
+}
+
+/*Si localStorage est vide alors on crée un tableau et on y ajoute les valeurs*/
+else {
+  productStorage = [];
+  productStorage.push(selectedProduct);
+  localStorage.setItem("product", JSON.stringify(productStorage));
+  
+}
+
+/*Si même quantité et même id alors incrémentation quantité
+if (productStorage) {
+  forEach {
+    
+  }
+}*/
+
 });
-
-
- /*local Storage*/
- 
