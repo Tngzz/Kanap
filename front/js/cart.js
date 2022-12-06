@@ -4,17 +4,19 @@ console.log(productStorage);
 
 fetch(`http://localhost:3000/api/products`)
         .then((res) =>  res.json())
-        .then((kanap) => displayCartItems(kanap))
+        .then((kanap) => displayCartItems(kanap));
+
 
 function displayCartItems (kanapApi) {
     
-    const itemCartApi = kanapApi;
-    console.log(itemCartApi);
-
-    const idCartItems = document.querySelector("#cart__items");
-
     for (let j = 0; j < productStorage.length; j++) {
-        console.log(productStorage.length)    
+        
+        console.log('nombre d article dans le panier ' + productStorage.length)    
+        
+        
+        const itemCartApi = kanapApi;
+        console.log(itemCartApi);
+
 
         /*Insértion de l'élèment article dans le panier*/
         const cartArticle = document.createElement("article");
@@ -32,11 +34,11 @@ function displayCartItems (kanapApi) {
         divCartItemImg.classList.add("cart__item__img");
         cartArticle.appendChild(divCartItemImg);
 
-        /*Insértion de l'image + alt
+        /*Insértion de l'image + alt*/
         const cartImg = document.createElement("img");
-        productImg.src = imageUrl;
-        productImg.alt = altTxt; 
-        divCartItemImg.appendChild(cartImg);*/
+        cartImg.src = kanapApi[j].imageUrl;
+        cartImg.alt = kanapApi[j].altTxt; 
+        divCartItemImg.appendChild(cartImg);
 
         /*création div cart__item__content*/
         const divCartItemContent = document.createElement("div");
@@ -51,7 +53,7 @@ function displayCartItems (kanapApi) {
         /*création h2*/
         const cartName = document.createElement("h2");
         divCartItemContentDesc.appendChild(cartName);
-        cartName.innerHTML = productStorage[j].name;
+        cartName.innerHTML = kanapApi[j].name;
 
         /*Création P/couleur*/
         const paraColor = document.createElement("p");
@@ -61,7 +63,7 @@ function displayCartItems (kanapApi) {
         /*Création P/price*/
         const paraPrice = document.createElement("p");
         divCartItemContentDesc.appendChild(paraPrice);
-        paraPrice.innerHTML = productStorage.price +" €";
+        paraPrice.innerHTML = kanapApi[j].price +" €";
 
         /*création div cart__item__content_settings*/
         const divCartItemContentSet = document.createElement("div");
@@ -84,7 +86,7 @@ function displayCartItems (kanapApi) {
         cartInput.name = "itemQuantity";
         cartInput.min = "1";
         cartInput.max = "100";
-        cartInput.value = productStorage.quantity;
+        cartInput.value = productStorage[j].quantity;
         divCartItemContentSetQte.appendChild(cartInput);
 
         /*création div cart__item__content__settings__delete*/
@@ -94,10 +96,26 @@ function displayCartItems (kanapApi) {
 
         /*Création P/delete*/
         const paraDelete = document.createElement("p");
+        paraDelete.classList.add("deleteItem");
         divCartItemContentSetDel.appendChild(paraDelete);
         paraDelete.innerHTML = "Supprimer";
 
         }
-    };
+    }
     
-  
+
+    
+// document.querySelectorAll(".deleteItem")
+//  console.log(document.querySelectorAll(".deleteItem"))
+
+// for  (let k = 0; k < supBtn.length; k++) {
+//         deleteBtn[k].addEventListener("click", (e) => {
+        
+//             let deleteId = productStorage[k].idProduct;
+            
+//             console.log(deleteId)
+//     })
+// };
+
+ 
+console.log("hello world")

@@ -106,18 +106,12 @@ if (productStorage) {
 }
 
 /*Si localStorage est vide alors on crée un tableau et on y ajoute les valeurs*/
-else {
+else{
   productStorage = [];
   productStorage.push(selectedProduct);
   localStorage.setItem("product", JSON.stringify(productStorage));
   
 }
 
-/*Si même quantité et même id alors incrémentation quantité
-if (productStorage) {
-  forEach {
-    
-  }
-}*/
-
 });
+
