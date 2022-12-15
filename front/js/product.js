@@ -113,5 +113,18 @@ else{
   
 }
 
+const compareObject = productStorage.find(element => element.id == selectedProduct.id && element.color == selectedProduct.choiceColorProduct);
+  
+// if(compareObject == undefined) {
+//     productStorage.push(selectedProduct);
+//     localStorage.setItem("product", JSON.stringify(productStorage));
+
+//   }else {
+//     let newProductQuantityInCart = parseInt(selectedProduct.quantityVal) + parseInt(productInCart.quantityVal);
+//     productInCart.quantityVal = newProductQuantityInCart;
+//     localStorage.setItem("product", JSON.stringify(productStorage));
+    
+
+//   }
 });
 
