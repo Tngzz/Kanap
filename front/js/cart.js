@@ -1,6 +1,10 @@
 let productStorage = JSON.parse(localStorage.getItem("product"));
-console.table(productStorage)
+console.table(productStorage);
 
+let totalProductsQuantity = 0;
+
+function displayCartItems () {
+    
     for (let j = 0; j < productStorage.length; j++) {
         
         fetch(`http://localhost:3000/api/products/${productStorage[j].idProduct}`)
@@ -17,10 +21,11 @@ console.table(productStorage)
                 cartArticle.dataset.id = productStorage[j].idProduct;
                 const idProductsInStorage = cartArticle.dataset.id
                 cartArticle.dataset.colors = productStorage[j].color;
+                const colorProductInstorage = cartArticle.dataset.colors;
                 document.querySelector("#cart__items").appendChild(cartArticle);
                 
                 console.log(idProductsInStorage)
-                console.log(cartArticle.dataset.colors)
+                console.log(colorProductInstorage)
                 
         
                 /*création de la div cart item img*/
@@ -49,7 +54,6 @@ console.table(productStorage)
                 divCartItemContentDesc.appendChild(cartName);
                 cartName.innerHTML = productData.name;
                 
-        
                 /*Création P/couleur*/
                 const paraColor = document.createElement("p");
                 divCartItemContentDesc.appendChild(paraColor);
@@ -88,68 +92,55 @@ console.table(productStorage)
                 const divCartItemContentSetDel = document.createElement("div");
                 divCartItemContentSetDel.classList.add("cart__item__content__settings__delete");
                 divCartItemContent.appendChild(divCartItemContentSetDel);
-        
+               
                 /*Création P/delete*/
                 const paraDelete = document.createElement("p");
                 paraDelete.classList.add("deleteItem");
                 divCartItemContentSetDel.appendChild(paraDelete);
                 paraDelete.innerHTML = "Supprimer"
+
+                totalProductsQuantity += productStorage.quantity;
+
+                document.querySelector("#totalQuantity").textContent = totalProductsQuantity;
+
+                //  divCartItemContentSetQte.addEventListener("click", (even) => {
+                //      totalQte = qte + 1
+                //      document.querySelector("#totalQuantity").textContent = totalQte;
+                    
+                //  })
+
                 
-                
-                // /*Calcul prix total panier*/
-                
-                let totalQte = productStorage[j].quantity;
-                console.log(totalQte)
 
-                let totalPrice = productData.price;
-                console.log(totalPrice)
 
-                let finalPrice = totalQte * totalPrice;
-                console.log(finalPrice)
-                                
 
-                // // /*Afficher total article + total prix*/
-                document.querySelector("#totalQuantity").textContent = totalQte;
-                document.querySelector("#totalPrice").textContent = finalPrice;
 
-                let deleteBtn = document.querySelectorAll(".deleteItem");
-                   
-                console.log(deleteBtn);
 
-                for (let k = 0; k < deleteBtn.length; k++) {
-                                                        
-                deleteBtn[k].addEventListener("click" , (e) => {
-                e.preventDefault(e);
-                console.log(deleteBtn[k])
 
-                let idDeleteProductStorage = productStorage[k].idProduct;
-                console.log(idDeleteProductStorage);
 
-                 productStorage = productStorage.filter(el => el.idProduct !== idDeleteProductStorage)
-                // console.log(productStorage);
+                /*AddEventlistener qui permet la supression d'un produit dans le panier*/
+                divCartItemContentSetDel.addEventListener("click", (e) => {
+                    let idDeleteProductStorage = productStorage[j].idProduct;
+                    console.log(idDeleteProductStorage);
 
-                // productStorage.splice(idDeleteProductStorage[k], 1)
-            
+                    let colorDeleteProductStorage = productStorage[j].color;
+                    console.log(colorDeleteProductStorage);
+                    
+                    /*Filtrer le panier pour ne garder que les produits non sélectionnés*/
+                    productStorage = productStorage.filter(productStorage => productStorage.id !== idDeleteProductStorage 
+                                                        && productStorage.color !== colorDeleteProductStorage);
 
-            //   localStorage.setItem("product", JSON.stringify(productStorage));
-            
-            //   window.location.reload();
-         });
-     };
+                        localStorage.setItem("product", JSON.stringify(productStorage))
 
-        });
-            
+                        window.location.reload(); 
+                })
+                console.log(productStorage)
         }
-    
+    )}
+}
+
+displayCartItems ()
 
 
-
-
-
-
-    
-
-        
 
 
 /*Formulaire*/
@@ -231,11 +222,12 @@ function validationEmail () {
     }
 }
 
+/*Au click sur commander recup valeurs*/
 
-    
+function formValueToSend () {
     let order = document.querySelector("#order");
     
-    order.addEventListener("click", (even) =>{
+    order.addEventListener("click", (even) => {
         even.preventDefault(even);
         
         // Valeurs du formulaire
@@ -250,41 +242,47 @@ function validationEmail () {
             console.log(formData)
         
         // Verif du formulaire
-        if (formData !== null
+       if (formData !== null
             && validationFirstName(firstName)
             && validationLastName(lastName)
-            && validationAdress(address)
-            && validationCity(city)
-            && validationEmail(email)) {
+             && validationAdress(address)
+             && validationCity(city)
+             && validationEmail(email)) {
             
-            localStorage.setItem("form", JSON.stringify(formData));
+             localStorage.setItem("form", JSON.stringify(formData));
             
-            // Element à envoyer dans l'api
-            const SendApi = {
-                productStorage,
+             // Element à envoyer dans l'api
+             const SendApi = {
+                 productStorage,
                 formData
-            }
+             }
             
-            console.log(SendApi)
+           console.log(SendApi)
 
-            fetch("http://localhost:3000/api/products/order", {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({productStorage, formData})
-              })
-              .then(response => {
-                return response.json()
-            })
-            .then(data => {
-                console.log(data);
-                localStorage.setItem("orderId", data.orderId);
-                // window.location.href = `confirmation.html?orderId=${data.orderId}`;
+    //         fetch("http://localhost:3000/api/products/order", {
+    //             method: 'POST',
+    //             headers: {
+    //               'Content-Type': 'application/json;charset=utf-8'
+    //             },
+    //             body: JSON.stringify({productStorage, formData})
+    //           })
+    //           .then(response => {
+    //             return response.json()
+    //         })
+    //         .then(data => {
+    //             console.log(data);
+    //             localStorage.setItem("orderId", data.orderId);
+    //             // window.location.href = `confirmation.html?orderId=${data.orderId}`;
                 
-            })
+    //         })
 
-            } else {
-                alert("Veuillez vérifier vos coordonnées et/ou le contenu de votre panier afin de poursuivre!")};
+    //         } else {
+    //
+                //  alert("Veuillez vérifier vos coordonnées et/ou le contenu de votre panier afin de poursuivre!")};
+    }
     });
+    
 
+}
+
+formValueToSend ()
