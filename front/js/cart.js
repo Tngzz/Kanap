@@ -2,6 +2,7 @@ let productStorage = JSON.parse(localStorage.getItem("product"));
 console.table(productStorage);
 
 let totalProductsQuantity = 0;
+let totalProductsPrice = 0;
 
 function displayCartItems () {
     
@@ -99,49 +100,80 @@ function displayCartItems () {
                 divCartItemContentSetDel.appendChild(paraDelete);
                 paraDelete.innerHTML = "Supprimer"
 
-                totalProductsQuantity += productStorage.quantity;
-
+                
+                /*Affichage du nombre d'articles dans le panier*/
+                totalProductsQuantity += Number(productStorage[j].quantity);
                 document.querySelector("#totalQuantity").textContent = totalProductsQuantity;
 
-                //  divCartItemContentSetQte.addEventListener("click", (even) => {
-                //      totalQte = qte + 1
-                //      document.querySelector("#totalQuantity").textContent = totalQte;
-                    
-                //  })
-
-                
-
-
-
-
-
-
+                /*Affichage du prix*/
+                totalProductsPrice += Number(productStorage[j].quantity * productData.price);
+                document.querySelector("#totalPrice").textContent = totalProductsPrice;
 
                 /*AddEventlistener qui permet la supression d'un produit dans le panier*/
-                divCartItemContentSetDel.addEventListener("click", (e) => {
-                    let idDeleteProductStorage = productStorage[j].idProduct;
-                    console.log(idDeleteProductStorage);
+                    divCartItemContentSetDel.addEventListener("click", (e) => {
+                        let idDeleteProductStorage = productStorage[j].idProduct;
+                        console.log(idDeleteProductStorage);
 
-                    let colorDeleteProductStorage = productStorage[j].color;
-                    console.log(colorDeleteProductStorage);
-                    
-                    /*Filtrer le panier pour ne garder que les produits non sélectionnés*/
-                    productStorage = productStorage.filter(productStorage => productStorage.id !== idDeleteProductStorage 
-                                                        && productStorage.color !== colorDeleteProductStorage);
-
-                        localStorage.setItem("product", JSON.stringify(productStorage))
-
-                        window.location.reload(); 
-                })
+                        let colorDeleteProductStorage = productStorage[j].color;
+                        console.log(colorDeleteProductStorage);
+                        
+                        /*Filtrer le panier pour ne garder que les produits non sélectionnés*/
+                        productStorage = productStorage.filter(productStorage => productStorage.id !== idDeleteProductStorage 
+                                                            && productStorage.color !== colorDeleteProductStorage);
+                            localStorage.setItem("product", JSON.stringify(productStorage))
+                            window.location.reload(); 
+                    })
+                
                 console.log(productStorage)
+                
+                /*Modification de la valeur en fonction du changement de quantité*/
+                 
+                
+                
+                 cartInput.addEventListener("click", (e) => {
+                    let idUpdate = productStorage[j].idProduct;
+                    console.log(idUpdate)
+
+                    let colorUpdate = productStorage[j].color;
+                    console.log(colorUpdate)
+
+                    // // productStorage = productStorage.filter(productStorage => productStorage.id === idUpdate 
+                    // //     && productStorage.color === colorUpdate);
+
+                 let QteValue = cartInput.value
+                    
+                 console.log(QteValue)
+                    
+                    
+                    console.log(productStorage.quantity)
+
+
+                    let totalQte =  Number(productStorage[j].quantity) + Number(QteValue);
+                    console.log(totalQte)
+                    
+                    
+
+                     console.log(productStorage)
+                     document.querySelector("#totalQuantity").textContent = totalQte;
+
+                    // localStorage.setItem("product", JSON.stringify(totalQte))
+
+                    
+                    
+                    
+                 })
         }
     )}
 }
 
 displayCartItems ()
 
-
-
+// function newQuantiy (click) {
+//     let targetProduct = click.target.closest("article");
+//     console.log(targetProduct)
+//     let quantityProduct = click.target.closest(".itemQuantity");
+//     console.log(quantityProduct)
+// }
 
 /*Formulaire*/
 
