@@ -10,25 +10,19 @@ function displayProducts(reponseApi) {
   
   const products = reponseApi;
   console.log(reponseApi);
-  
-  /*Séléction de l'ID items*/
-  const productSelection = document.getElementById("items");
-  
-  for (let i = 0; i < reponseApi.length; i++) {
+    
+  for (let i = 0; i < products.length; i++) {
     
       /*Insértion de l'élèment a*/
       const a = document.createElement('a');
       document.querySelector(".items").appendChild(a);
       
-      
       /*Lien vers page produit*/
       a.href = `./product.html?id=${products[i]._id}`;
-    
     
       /*Insértion de l'élèment article*/
       const productArticle = document.createElement("article");
       a.appendChild(productArticle);
-      
       
       /*Insértion de l'image + alt*/
       const productImg = document.createElement("img");

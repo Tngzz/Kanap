@@ -4,8 +4,6 @@ const url = new URL(str);
 const id = url.searchParams.get("id");
 console.log(id);
 
-
-
 /*Récup url Api + ajout de l'id*/
 fetch(`http://localhost:3000/api/products/${id}`)
   .then((reponse) => reponse.json())
@@ -77,54 +75,60 @@ console.log(addToCart);
 
 /*On vient écouter le bouton addToCart à chaque click de la souris*/
 selectedButon.addEventListener("click", (event) => {
-  
+
   /*récup valeur de la couleur*/
   const choiceColorProduct = colorProduct.value;
   console.log(choiceColorProduct);
  
   /*récup valeur de la quantity*/
-  const quantityVal = quantityKanap.value;
+  let quantityVal = quantityKanap.value;
+  console.log(quantityVal)
+  if(quantityVal <1 ||quantityVal >100 || colors.value ===""  ){
+    alert("veuillez vérifier votre sélection, vous devez choisir une couleur et indiquer une quantité d'article entre 1 et 100");
+  }else{
 
-  /*Les infos du produit sélectionné */
-  let selectedProduct = {
-    idProduct: id,
-    color: choiceColorProduct,
-    quantity: quantityVal,
-  
-  };
+    /*Les infos du produit sélectionné */
+    let selectedProduct = {
+      idProduct: id,
+      color: choiceColorProduct,
+      quantity: quantityVal,
 
-  console.log(selectedProduct)
-   
-/*local Storage*/
-let productStorage = JSON.parse(localStorage.getItem("product"));
-console.log(productStorage);
+    };
 
-/*Si localStorage n'est pas vide alors on push les infos */
-if (productStorage) {
-    productStorage.push(selectedProduct);
-    localStorage.setItem("product", JSON.stringify(productStorage));
-}
+    console.log(selectedProduct.idProduct)
 
-/*Si localStorage est vide alors on crée un tableau et on y ajoute les valeurs*/
-else{
-  productStorage = [];
-  productStorage.push(selectedProduct);
-  localStorage.setItem("product", JSON.stringify(productStorage));
-  
-}
+    /*local Storage*/
+    let productStorage = JSON.parse(localStorage.getItem("product"));
 
-const compareObject = productStorage.find(element => element.id == selectedProduct.id && element.color == selectedProduct.choiceColorProduct);
-  
-// if(compareObject == undefined) {
-//     productStorage.push(selectedProduct);
-//     localStorage.setItem("product", JSON.stringify(productStorage));
 
-//   }else {
-//     let newProductQuantityInCart = parseInt(selectedProduct.quantityVal) + parseInt(productInCart.quantityVal);
-//     productInCart.quantityVal = newProductQuantityInCart;
-//     localStorage.setItem("product", JSON.stringify(productStorage));
-    
+    /*Si localStorage est  vide alors on push les infos */
+    if(productStorage === null){
+      productStorage = [];
+      productStorage.push(selectedProduct);
+      localStorage.setItem("product", JSON.stringify(productStorage));
+      alert("vous venez d'ajouter un article au panier !")
 
-//   }
+    }else{
+      
+      const compareObject = productStorage.find(productStorage => productStorage.idProduct === selectedProduct.idProduct && productStorage.color === selectedProduct.color);
+      
+      if(compareObject === undefined){
+        productStorage.push(selectedProduct);
+        localStorage.setItem("product", JSON.stringify(productStorage));
+        alert("vous venez d'ajouter un article au panier !")
+      
+      } else{
+
+      let totalQte = document.querySelector("#quantity")
+      console.log(totalQte.value)
+      selectedProduct.quantity = totalQte.value;
+      productStorage = [];
+      productStorage.push(selectedProduct);
+      localStorage.setItem("product", JSON.stringify(productStorage));
+      console.log(productStorage)
+      alert("vous venez d'ajouter un article au panier !")
+      }
+    }
+  }
 });
 
