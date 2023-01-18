@@ -158,8 +158,12 @@ function displayCartItems () {
                     newP = 0;
                     
                     // Calcul du prix final en fonction des nouvelles valeurs de quantité
-                    displayPrice ()
-                    
+                        newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
+                        console.log(newTotalProductsPrice)
+                        
+                        displayPrice ()
+                        
+                        
                     
                 })
         }
@@ -185,13 +189,18 @@ function displayPrice () {
         .then((res) =>  res.json())
         .then((productData) => {
             totalProductsPrice = Number(productStorage[j].quantity * productData.price);
-                    document.querySelector("#totalPrice").textContent = totalProductsPrice;
-                    console.log(totalProductsPrice)
-                  
- 
+            newTotalProductsPrice.push(totalProductsPrice)
+                console.log(newTotalProductsPrice)
+                let totalPrice = newTotalProductsPrice.reduce(function(accumulator, currentValue) {
+                    return accumulator + currentValue;
+                }, 0);
+                console.log(totalPrice)
+                document.querySelector("#totalPrice").textContent = totalPrice;
         })
     }
+    
 }
+
 displayPrice ()
 
 /*Formulaire*/

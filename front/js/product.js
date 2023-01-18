@@ -36,7 +36,6 @@ function image (imageUrl, altTxt) {
 
 function title (nameProd) {
   document.querySelector("#title").textContent = nameProd;
-  
 }
 
 function neWdescription (description) {
@@ -85,6 +84,7 @@ selectedButon.addEventListener("click", (event) => {
   console.log(quantityVal)
   if(quantityVal <1 ||quantityVal >100 || colors.value ===""  ){
     alert("veuillez vérifier votre sélection, vous devez choisir une couleur et indiquer une quantité d'article entre 1 et 100");
+  
   }else{
 
     /*Les infos du produit sélectionné */
@@ -92,14 +92,12 @@ selectedButon.addEventListener("click", (event) => {
       idProduct: id,
       color: choiceColorProduct,
       quantity: quantityVal,
-
     };
 
     console.log(selectedProduct.idProduct)
 
     /*local Storage*/
     let productStorage = JSON.parse(localStorage.getItem("product"));
-
 
     /*Si localStorage est  vide alors on push les infos */
     if(productStorage === null){
