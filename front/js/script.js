@@ -2,14 +2,15 @@
 function apiCall() {
   fetch('http://localhost:3000/api/products')
     .then(reponse => reponse.json())
-    .then(reponse => displayProducts(reponse))   
+    .then(reponse => displayProducts(reponse)) 
+    .catch(error => alert("Une erreur s'est produite, veuillez rafraichir la page !"));  
 }
 
-
+/*Fonction qui permet l'affichage des produits*/
 function displayProducts(reponseApi) {
   
   const products = reponseApi;
-  console.log(reponseApi);
+  console.table(reponseApi);
     
   for (let i = 0; i < products.length; i++) {
     
@@ -45,4 +46,3 @@ function displayProducts(reponseApi) {
 };
 
 apiCall()
-
