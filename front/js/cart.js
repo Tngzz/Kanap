@@ -19,10 +19,6 @@ function displayCartItems () {
                 .then((res) =>  res.json())
                 .then((productData) => {
                     
-                    console.log(productData)
-                    
-                    console.log('nombre d article dans le panier ' + productStorage.length)    
-            
                     /*Insértion de l'élèment article dans le panier*/
                     const cartArticle = document.createElement("article");
                     cartArticle.classList.add("cart__item");
@@ -31,9 +27,6 @@ function displayCartItems () {
                     cartArticle.dataset.colors = productStorage[j].color;
                     const colorProductInstorage = cartArticle.dataset.colors;
                     document.querySelector("#cart__items").appendChild(cartArticle);
-                    
-                    console.log(idProductsInStorage)
-                    console.log(colorProductInstorage)
                     
                     /*création de la div cart item img*/
                     const divCartItemImg = document.createElement("div");
@@ -108,12 +101,10 @@ function displayCartItems () {
                     
                     /*AddEventlistener qui permet la supression d'un produit dans le panier en se servant de la boucle du display article*/
                     divCartItemContentSetDel.addEventListener("click", (e) => {
-                        let idDeleteProductStorage = productStorage[j].idProduct;
-                        console.log(idDeleteProductStorage);
-
-                        let colorDeleteProductStorage = productStorage[j].color;
-                        console.log(colorDeleteProductStorage);
                         
+                        let idDeleteProductStorage = productStorage[j].idProduct;
+                        let colorDeleteProductStorage = productStorage[j].color;
+                       
                         /*Filtrer le panier pour ne garder que les produits non sélectionnés*/
                         productStorage = productStorage.filter(productStorage => productStorage.id !== idDeleteProductStorage 
                                                             && productStorage.color !== colorDeleteProductStorage);
@@ -132,7 +123,7 @@ function displayCartItems () {
                         
                         // Fonction pour comparer les id et les couleurs
                         let foundproduct = productStorage.find(productStorage => productStorage.idProduct === idUpdate 
-                                && productStorage.color === colorUpdate);
+                                && productStorage.colors === colorUpdate);
                         
                         if(foundproduct){
                             
@@ -144,8 +135,6 @@ function displayCartItems () {
                             
                             // on envoie le resultat au LS
                             localStorage.setItem("product", JSON.stringify(productStorage))
-                            console.log(productStorage)
-                            
                         
                         } else {
                             console.log("Aucun produit n'est identique")
@@ -289,7 +278,6 @@ function formValueToSend () {
         const productId = []
         for (let p = 0; p < productStorage.length; p++) {
         productId.push(productStorage[p].idProduct);
-        console.log(productId)
         }
 
         // Variable qui récupère les valeurs du formulaire + les id pour envoyer au back
@@ -303,8 +291,6 @@ function formValueToSend () {
             },
             products: productId
         }
-
-            console.log(orderObj)
         
         // Si orderObj n'est pas nul est que chaque input du form est valide alors on envoie les données dans l'API avec fetch 
         if (orderObj !== null
@@ -325,7 +311,6 @@ function formValueToSend () {
                     return response.json()
                 })
                 .then(data => {
-                    console.log(data);
                     localStorage.setItem("orderId", data.orderId);
                     window.location.href = `confirmation.html?orderId=${data.orderId}`;
                 })

@@ -2,7 +2,6 @@
 const str = window.location;
 const url = new URL(str);
 const id = url.searchParams.get("id");
-console.log("Id sélectionné:" + id);
 
 let quantityValueLs = 0;
 
@@ -18,7 +17,6 @@ fetchApi ()
 
 /*Récup valeurs Api (kanap) transforme en const*/
 function productObject(kanap) {
-  console.log(kanap)
   const altTxt = kanap.altTxt
   const colors = kanap.colors
   const description = kanap.description
@@ -83,11 +81,9 @@ function selectedButonEventListener () {
 
     /*Récup valeur de la couleur*/
     const choiceColorProduct = colorProduct.value;
-    console.log(choiceColorProduct);
    
     /*Récup valeur de la quantity*/
     let quantityVal = quantityKanap.value;
-    console.log(quantityVal)
     
     if(quantityVal <1 ||quantityVal >100 || colors.value ===""  ){
       alert("Veuillez vérifier votre sélection, vous devez choisir une couleur et indiquer une quantité d'article entre 1 et 100");
@@ -100,8 +96,6 @@ function selectedButonEventListener () {
         color: choiceColorProduct,
         quantity: quantityVal,
       };
-  
-      console.log(selectedProduct.idProduct)
   
       /*local Storage*/
       let productStorage = JSON.parse(localStorage.getItem("product"));
@@ -119,7 +113,6 @@ function selectedButonEventListener () {
               let totalQte = document.querySelector("#quantity").value;
               productStorage[compareObject].quantity = totalQte;
               localStorage.setItem("product", JSON.stringify(productStorage));
-              console.log(productStorage);
               alert("vous venez de mettre à jour la quantité de cet article dans le panier!");
           } else{
               productStorage.push(selectedProduct);
