@@ -107,8 +107,9 @@ function selectedButonEventListener () {
           alert("vous venez d'ajouter un article au panier !")
       
         }else{
-          const compareObject = productStorage.findIndex(productStorage => productStorage.idProduct === selectedProduct.idProduct && productStorage.color === selectedProduct.color);
           
+          const compareObject = productStorage.findIndex(productStorage => productStorage.idProduct === selectedProduct.idProduct && productStorage.color === selectedProduct.color);
+
           if(compareObject !== -1){
               let totalQte = document.querySelector("#quantity").value;
               productStorage[compareObject].quantity = totalQte;
