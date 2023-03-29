@@ -10,8 +10,7 @@ function apiCall() {
 function displayProducts(reponseApi) {
   
   const products = reponseApi;
-  console.table(reponseApi);
-    
+  
   for (let i = 0; i < products.length; i++) {
     
       /*Insértion de l'élèment a*/

@@ -109,7 +109,21 @@ function displayCartItems () {
                                                             && productStorage.color !== colorDeleteProductStorage);
                         // On envoie le tout au LS
                         localStorage.setItem("product", JSON.stringify(productStorage))
-                        window.location.reload(); 
+                        
+                        
+                        // window.location.reload();
+                        const getSection = document.querySelector("#cart__items");
+			            
+                        getSection.removeChild(event.target.closest("article"));
+
+                        newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
+                        
+                        displayPrice ()
+                        
+                        totalProductsQuantity = 0;
+
+                        displayQte ()
+                        
                     })
 
                     /*AddEventlistener qui permet de modififier la quantité d'un produit*/
@@ -168,6 +182,8 @@ function displayCartItems () {
                         newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
                         
                         displayPrice ()
+
+                        
                     })
             }
         )}
@@ -221,7 +237,7 @@ email.addEventListener("input" ,validationEmail);
 
 /*accepte lettres majuscule et minuscule + carac. spéciaux sans limite de taille*/
 let regexFirstLastNameCity = /^[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ][^@&"()!_$*€£`+=\/;?#\d]{2,30}$/;
-let regexAdress = /^[0-9]{1,3}[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ]{1,45}[0-9]{5}$/;
+let regexAdress = /^[0-9]{1,3}[a-zA-ZàâäéèêëïîôöùûüÿçæÆœŒ -]{1,45}$/;
 let regexEmail = /^[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ]{2,20}@[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ]{2,10}\.[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ]{2,5}$/;
 
 
@@ -229,7 +245,7 @@ let regexEmail = /^[a-zA-Z -àâäéèêëïîôöùûüÿçæÆœŒ]{2,20}@[a-z
 
 function validationFirstName () {
     if (regexFirstLastNameCity.test(firstName.value) == false){
-        firstNameErrorMsg.textContent ="Veuillez renseigner au minimum 2 lettres, les caractères spéciaux ne sont pas autorisés ";
+        firstNameErrorMsg.textContent ="Veuillez renseigner au minimum 3 lettres, les caractères spéciaux ne sont pas autorisés ";
         return false;
     } else{
         firstNameErrorMsg.textContent = "";
@@ -241,7 +257,7 @@ function validationFirstName () {
 
 function validationLastName () {
     if (regexFirstLastNameCity.test(lastName.value) == false){
-        lastNameErrorMsg.textContent ="Veuillez renseigner au minimum 2 lettres, les caractères spéciaux ne sont pas autorisés ";
+        lastNameErrorMsg.textContent ="Veuillez renseigner au minimum 3 lettres, les caractères spéciaux ne sont pas autorisés ";
         return false;
     } else{
         lastNameErrorMsg.textContent = "";
@@ -253,7 +269,7 @@ function validationLastName () {
 
 function validationAdress () {
     if (regexAdress.test(address.value) == false){
-        addressErrorMsg.textContent ="Exemple: 20 rue des Sapins 75000";
+        addressErrorMsg.textContent ="Exemple: 20 rue des Sapins";
     } else{
         addressErrorMsg.textContent = "";
         return true;

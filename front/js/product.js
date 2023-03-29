@@ -111,11 +111,11 @@ function selectedButonEventListener () {
           const compareObject = productStorage.findIndex(productStorage => productStorage.idProduct === selectedProduct.idProduct && productStorage.color === selectedProduct.color);
 
           if(compareObject !== -1){
-              let totalQte = document.querySelector("#quantity").value;
-              productStorage[compareObject].quantity = totalQte;
-              localStorage.setItem("product", JSON.stringify(productStorage));
-              alert("vous venez de mettre à jour la quantité de cet article dans le panier!");
-          } else{
+            let totalQte = Number(productStorage[compareObject].quantity) + Number(quantityVal);
+            productStorage[compareObject].quantity = totalQte;
+            localStorage.setItem("product", JSON.stringify(productStorage));
+            alert("vous venez d'ajouter une quantité de cet article dans le panier!");
+          }else{
               productStorage.push(selectedProduct);
               localStorage.setItem("product", JSON.stringify(productStorage));
               alert("vous venez d'ajouter un article au panier !")
