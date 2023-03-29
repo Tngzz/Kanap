@@ -100,41 +100,49 @@ function displayCartItems () {
                     
                     /*AddEventlistener qui permet la supression d'un produit dans le panier en se servant de la boucle du display article*/
                     divCartItemContentSetDel.addEventListener("click", (e) => {
-                        let idDeleteProductStorage = productStorage[j].idProduct;
-
-                        let colorDeleteProductStorage = productStorage[j].color;
-
+                        
+                        let idDeleteProductStorage;
+                        let colorDeleteProductStorage;
+                    
+                        if (productStorage.length > 0) { 
+                            idDeleteProductStorage = productStorage[j]?.idProduct;
+                            colorDeleteProductStorage = productStorage[j]?.color;
+                        }
+                    
                         /*Filtrer le panier pour ne garder que les produits non sélectionnés*/
                         productStorage = productStorage.filter(productStorage => productStorage.id !== idDeleteProductStorage 
-                                                            && productStorage.color !== colorDeleteProductStorage);
+                            && productStorage.color !== colorDeleteProductStorage);
+                    
                         // On envoie le tout au LS
-                        localStorage.setItem("product", JSON.stringify(productStorage))
-                        
+                        localStorage.setItem("product", JSON.stringify(productStorage));
+                    
                         const getSection = document.querySelector("#cart__items");
-			            
-                        getSection.removeChild(event.target.closest("article"));
+                    
+                        const productToDelete = event.target.closest("article"); 
+                    
+                        if (productToDelete) {
+                            getSection.removeChild(productToDelete); 
+                        }
 
+                        // Recalcul des Qte et du price pour chaque supression 
                         newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
-                        
                         totalProductsQuantity = 0;
-                        
-                        displayPrice ()
-                        
-                        displayQte ()
-                        
+                        displayPrice();
+                        displayQte();
+                    
                         let newTotalProductsQuantity = productStorage.reduce((accumulator, currentValue) => {
                             return Number(accumulator) + Number(currentValue.quantity);
-                            }, 0);
-    
+                        }, 0);
+                    
                         document.querySelector("#totalQuantity").textContent = newTotalProductsQuantity;
-                        
+                    
                         let newTotalPrice = productStorage.reduce((accumulator, currentValue) => {
                             return Number(accumulator) + Number(currentValue.price);
-                            }, 0);
-    
-                            document.querySelector("#totalPrice").textContent = newTotalPrice;
-
+                        }, 0);
+                    
+                        document.querySelector("#totalPrice").textContent = newTotalPrice;
                     })
+                    
 
                     /*AddEventlistener qui permet de modififier la quantité d'un produit*/
                     cartInput.addEventListener("change", (e) => {
