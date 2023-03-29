@@ -110,20 +110,30 @@ function displayCartItems () {
                         // On envoie le tout au LS
                         localStorage.setItem("product", JSON.stringify(productStorage))
                         
-                        
-                        // window.location.reload();
                         const getSection = document.querySelector("#cart__items");
 			            
                         getSection.removeChild(event.target.closest("article"));
 
                         newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
                         
+                        totalProductsQuantity = 0;
+                        
                         displayPrice ()
                         
-                        totalProductsQuantity = 0;
-
                         displayQte ()
                         
+                        let newTotalProductsQuantity = productStorage.reduce((accumulator, currentValue) => {
+                            return Number(accumulator) + Number(currentValue.quantity);
+                            }, 0);
+    
+                        document.querySelector("#totalQuantity").textContent = newTotalProductsQuantity;
+                        
+                        let newTotalPrice = productStorage.reduce((accumulator, currentValue) => {
+                            return Number(accumulator) + Number(currentValue.price);
+                            }, 0);
+    
+                            document.querySelector("#totalPrice").textContent = newTotalPrice;
+
                     })
 
                     /*AddEventlistener qui permet de modififier la quantité d'un produit*/
@@ -182,7 +192,6 @@ function displayCartItems () {
                         newTotalProductsPrice.splice(0, newTotalProductsPrice.length)
                         
                         displayPrice ()
-
                         
                     })
             }
